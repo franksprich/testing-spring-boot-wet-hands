@@ -54,9 +54,9 @@ public class ReviewControllerTests {
     @Test
     public void ReviewController_GetReviewsByPokemonId_ReturnReviewDto() throws Exception {
         int pokemonId = 1;
-        when(reviewService.getReviewsByPokemonId(pokemonId)).thenReturn(Arrays.asList(reviewDto));
+        Mockito.when(reviewService.getReviewsByPokemonId(pokemonId)).thenReturn(Arrays.asList(reviewDto));
 
-        ResultActions response = mockMvc.perform(get("/api/pokemon/1/reviews")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/pokemon/1/reviews")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(pokemonDto)));
 
@@ -68,9 +68,9 @@ public class ReviewControllerTests {
     public void ReviewController_UpdateReview_ReturnReviewDto() throws Exception {
         int pokemonId = 1;
         int reviewId = 1;
-        when(reviewService.updateReview(pokemonId, reviewId, reviewDto)).thenReturn(reviewDto);
+        Mockito.when(reviewService.updateReview(pokemonId, reviewId, reviewDto)).thenReturn(reviewDto);
 
-        ResultActions response = mockMvc.perform(put("/api/pokemon/1/reviews/1")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.put("/api/pokemon/1/reviews/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(reviewDto)));
 
@@ -84,9 +84,9 @@ public class ReviewControllerTests {
     @Test
     public void ReviewController_CreateReview_ReturnReviewDto() throws Exception {
         int pokemonId = 1;
-        when(reviewService.createReview(pokemonId, reviewDto)).thenReturn(reviewDto);
+        Mockito.when(reviewService.createReview(pokemonId, reviewDto)).thenReturn(reviewDto);
 
-        ResultActions response = mockMvc.perform(post("/api/pokemon/1/reviews")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.post("/api/pokemon/1/reviews")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(reviewDto)));
 
@@ -100,9 +100,9 @@ public class ReviewControllerTests {
     public void ReviewController_GetReviewId_ReturnReviewDto() throws Exception {
         int pokemonId = 1;
         int reviewId = 1;
-        when(reviewService.getReviewById(reviewId, pokemonId)).thenReturn(reviewDto);
+        Mockito.when(reviewService.getReviewById(reviewId, pokemonId)).thenReturn(reviewDto);
 
-        ResultActions response = mockMvc.perform(get("/api/pokemon/1/reviews/1")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/pokemon/1/reviews/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -116,9 +116,9 @@ public class ReviewControllerTests {
         int pokemonId = 1;
         int reviewId = 1;
 
-        doNothing().when(reviewService).deleteReview(pokemonId, reviewId);
+        Mockito.doNothing().when(reviewService).deleteReview(pokemonId, reviewId);
 
-        ResultActions response = mockMvc.perform(delete("/api/pokemon/1/reviews/1")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/pokemon/1/reviews/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk());

@@ -58,9 +58,9 @@ public class PokemonControllerTests {
 
     @Test
     public void PokemonController_CreatePokemon_ReturnCreated() throws Exception {
-        given(pokemonService.createPokemon(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
+        BDDMockito.given(pokemonService.createPokemon(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
 
-        ResultActions response = mockMvc.perform(post("/api/pokemon/create")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.post("/api/pokemon/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(pokemonDto)));
 
@@ -72,9 +72,9 @@ public class PokemonControllerTests {
     @Test
     public void PokemonController_GetAllPokemon_ReturnResponseDto() throws Exception {
         PokemonResponse responseDto = PokemonResponse.builder().pageSize(10).last(true).pageNo(1).content(Arrays.asList(pokemonDto)).build();
-        when(pokemonService.getAllPokemon(1,10)).thenReturn(responseDto);
+        Mockito.when(pokemonService.getAllPokemon(1,10)).thenReturn(responseDto);
 
-        ResultActions response = mockMvc.perform(get("/api/pokemon")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/pokemon")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("pageNo","1")
                 .param("pageSize", "10"));
@@ -86,9 +86,9 @@ public class PokemonControllerTests {
     @Test
     public void PokemonController_PokemonDetail_ReturnPokemonDto() throws Exception {
         int pokemonId = 1;
-        when(pokemonService.getPokemonById(pokemonId)).thenReturn(pokemonDto);
+        Mockito.when(pokemonService.getPokemonById(pokemonId)).thenReturn(pokemonDto);
 
-        ResultActions response = mockMvc.perform(get("/api/pokemon/1")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/pokemon/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(pokemonDto)));
 
@@ -100,9 +100,9 @@ public class PokemonControllerTests {
     @Test
     public void PokemonController_UpdatePokemon_ReturnPokemonDto() throws Exception {
         int pokemonId = 1;
-        when(pokemonService.updatePokemon(pokemonDto, pokemonId)).thenReturn(pokemonDto);
+        Mockito.when(pokemonService.updatePokemon(pokemonDto, pokemonId)).thenReturn(pokemonDto);
 
-        ResultActions response = mockMvc.perform(put("/api/pokemon/1/update")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.put("/api/pokemon/1/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(pokemonDto)));
 
@@ -114,9 +114,9 @@ public class PokemonControllerTests {
     @Test
     public void PokemonController_DeletePokemon_ReturnString() throws Exception {
         int pokemonId = 1;
-        doNothing().when(pokemonService).deletePokemonId(1);
+        Mockito.doNothing().when(pokemonService).deletePokemonId(1);
 
-        ResultActions response = mockMvc.perform(delete("/api/pokemon/1/delete")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/pokemon/1/delete")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk());

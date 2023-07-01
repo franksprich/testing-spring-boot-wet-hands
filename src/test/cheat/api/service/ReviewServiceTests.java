@@ -49,8 +49,8 @@ public class ReviewServiceTests {
 
     @Test
     public void ReviewService_CreateReview_ReturnsReviewDto() {
-        when(pokemonRepository.findById(pokemon.getId())).thenReturn(Optional.of(pokemon));
-        when(reviewRepository.save(Mockito.any(Review.class))).thenReturn(review);
+        Mockito.when(pokemonRepository.findById(pokemon.getId())).thenReturn(Optional.of(pokemon));
+        Mockito.when(reviewRepository.save(Mockito.any(Review.class))).thenReturn(review);
 
         ReviewDto savedReview = reviewService.createReview(pokemon.getId(), reviewDto);
 
@@ -60,7 +60,7 @@ public class ReviewServiceTests {
     @Test
     public void ReviewService_GetReviewsByPokemonId_ReturnReviewDto() {
         int reviewId = 1;
-        when(reviewRepository.findByPokemonId(reviewId)).thenReturn(Arrays.asList(review));
+        Mockito.when(reviewRepository.findByPokemonId(reviewId)).thenReturn(Arrays.asList(review));
 
         List<ReviewDto> pokemonReturn = reviewService.getReviewsByPokemonId(reviewId);
 
@@ -74,8 +74,8 @@ public class ReviewServiceTests {
 
         review.setPokemon(pokemon);
 
-        when(pokemonRepository.findById(pokemonId)).thenReturn(Optional.of(pokemon));
-        when(reviewRepository.findById(reviewId)).thenReturn(Optional.of(review));
+        Mockito.when(pokemonRepository.findById(pokemonId)).thenReturn(Optional.of(pokemon));
+        Mockito.when(reviewRepository.findById(reviewId)).thenReturn(Optional.of(review));
 
         ReviewDto reviewReturn = reviewService.getReviewById(reviewId, pokemonId);
 
@@ -90,9 +90,9 @@ public class ReviewServiceTests {
         pokemon.setReviews(Arrays.asList(review));
         review.setPokemon(pokemon);
 
-        when(pokemonRepository.findById(pokemonId)).thenReturn(Optional.of(pokemon));
-        when(reviewRepository.findById(reviewId)).thenReturn(Optional.of(review));
-        when(reviewRepository.save(review)).thenReturn(review);
+        Mockito.when(pokemonRepository.findById(pokemonId)).thenReturn(Optional.of(pokemon));
+        Mockito.when(reviewRepository.findById(reviewId)).thenReturn(Optional.of(review));
+        Mockito.when(reviewRepository.save(review)).thenReturn(review);
 
         ReviewDto updateReturn = reviewService.updateReview(pokemonId, reviewId, reviewDto);
 
@@ -107,10 +107,10 @@ public class ReviewServiceTests {
         pokemon.setReviews(Arrays.asList(review));
         review.setPokemon(pokemon);
 
-        when(pokemonRepository.findById(pokemonId)).thenReturn(Optional.of(pokemon));
-        when(reviewRepository.findById(reviewId)).thenReturn(Optional.of(review));
+        Mockito.when(pokemonRepository.findById(pokemonId)).thenReturn(Optional.of(pokemon));
+        Mockito.when(reviewRepository.findById(reviewId)).thenReturn(Optional.of(review));
 
-        assertAll(() -> reviewService.deleteReview(pokemonId, reviewId));
+        Assertions.assertAll(() -> reviewService.deleteReview(pokemonId, reviewId));
     }
 
 
